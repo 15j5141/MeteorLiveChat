@@ -95,11 +95,11 @@ setTimeout(
           'top': '' + Math.floor(rect.top + Math.random() * kyoriH) + 'px',
           'z-index': '' + 10001,
           'color': '#fff',
-          'background': '#000',
+          'text-shadow': '1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000',
           'transition': 'all 10s 0s linear',
           'max-width': '' + 1000 + 'px',
           'white-space': 'nowrap',
-          'font-size': '' + 1.6 + 'em',
+          'font-size': '' + 3.0 + 'em',
         });
         html.html(obj.text);
         body.insertAdjacentElement('beforeend', html.get(0));
