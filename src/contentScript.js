@@ -61,7 +61,10 @@ setTimeout(
           timestamp: item.querySelector('#timestamp').innerText,
           text: item.querySelector('#message').innerText,
           id: item.id,
-          author: '',
+          author: {
+            photo: item.querySelector('#author-photo img').getAttribute('src'),
+            name: item.querySelector('#author-name').innerText,
+          },
           x: video.clientWidth,
           y: video.clientHeight,
         };
@@ -101,7 +104,8 @@ setTimeout(
           'white-space': 'nowrap',
           'font-size': '' + 3.0 + 'em',
         });
-        html.html(obj.text);
+        const img = '<img src="' + obj.author.photo + '" style="width:1em;height:1em;" >';
+        html.html('' + img + obj.text);
         body.insertAdjacentElement('beforeend', html.get(0));
       });
       comment = [];
