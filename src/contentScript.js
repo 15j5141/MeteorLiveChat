@@ -41,3 +41,83 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   sendResponse({});
   return true;
 });
+let comment = [];
+let kyoriW = 1000;
+let kyoriH = 500;
+setTimeout(
+  function () {
+    window.doc = document.querySelector('ytd-live-chat-frame iframe').contentWindow.document;
+    setInterval(function () {
+      // document.querySelectorAll('.yt-live-chat-item-list-renderer');
+      const items = window.doc.querySelectorAll('yt-live-chat-app #items.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer');
+
+      let array = [];
+      let isCheck = false;
+      const video = document.querySelector('video');
+      kyoriW = video.clientWidth;
+      kyoriH = video.clientHeight;
+      items.forEach(function (item) {
+        const obj = {
+          timestamp: item.querySelector('#timestamp').innerText,
+          text: item.querySelector('#message').innerText,
+          id: item.id,
+          author: '',
+          x: video.clientWidth,
+          y: video.clientHeight,
+        };
+        // 未セット==初実行か, 以降新着コメントなら.
+        if ((typeof window.lastChatId === 'undefined') || obj.id === window.lastChatId) {
+          isCheck = true;
+          // return;
+        }
+        if (!isCheck) { return; }
+        // 新着コメントを記録.
+        array.push(obj);
+      });
+      if (array.length !== 0) {
+        window.lastChatId = array[array.length - 1].id;
+        array.shift();
+        comment.push(...array);
+        console.log(array);
+      }
+    }, 500);
+    const body = document.querySelector('body');
+    setInterval(() => {
+      const video = document.querySelector('video');
+      const rect = video.getBoundingClientRect();
+
+      comment.forEach(obj => {
+        const html = $('<div>');
+        html.addClass('meteor-comment-set');
+        html.css({
+          'position': 'absolute',
+          'left': '' + (kyoriW + rect.left) + 'px',
+          'top': '' + Math.floor(rect.top + Math.random() * kyoriH) + 'px',
+          'z-index': '' + 10001,
+          'color': '#fff',
+          'background': '#000',
+          'transition': 'all 10s 0s linear',
+          'max-width': '' + 1000 + 'px',
+          'white-space': 'nowrap',
+          'font-size': '' + 1.6 + 'em',
+        });
+        html.html(obj.text);
+        body.insertAdjacentElement('beforeend', html.get(0));
+      });
+      comment = [];
+
+      setTimeout(() => {
+        const mcs = $('.meteor-comment-set');
+        mcs.css('transform', 'translateX(-' + kyoriW + 'px)');
+        mcs.addClass('meteor-comment');
+        mcs.removeClass('meteor-comment-set');
+      }, 100); // 10とかだと短すぎる.
+    }, 500);
+  }, 2000
+);
+$(document).on('transitionend', '.meteor-comment', e => {
+  $(e.target).each(function (i, e) {
+    $(e).remove();
+  });
+});
+// items.item(233).querySelector('#message').innerText
