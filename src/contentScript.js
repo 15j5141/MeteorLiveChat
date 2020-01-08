@@ -41,6 +41,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   sendResponse({});
   return true;
 });
+/*
+memo
+yt-live-chat-app #items.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer
+*/
 let comment = [];
 let kyoriW = 1000;
 let kyoriH = 500;
@@ -51,7 +55,9 @@ setTimeout(
     window.doc = iframe.contentWindow.document;
     setInterval(function () {
       // document.querySelectorAll('.yt-live-chat-item-list-renderer');
-      const items = window.doc.querySelectorAll('yt-live-chat-app #items.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer');
+      const items = window.doc.querySelectorAll('yt-live-chat-text-message-renderer,yt-live-chat-paid-message-renderer');
+      // const paids = window.doc.querySelectorAll('yt-live-chat-paid-message-renderer');
+      // const members = window.doc.querySelectorAll('yt-live-chat-legacy-paid-message-renderer');
 
       let array = [];
       let isCheck = false;
@@ -67,6 +73,7 @@ setTimeout(
             photo: item.querySelector('#author-photo img').getAttribute('src'),
             name: item.querySelector('#author-name').innerText,
           },
+          amount: item.querySelector('#purchase-amount') != null ? item.querySelector('#purchase-amount').innerText : null,
           x: video.clientWidth,
           y: video.clientHeight,
         };
@@ -106,8 +113,13 @@ setTimeout(
           'white-space': 'nowrap',
           'font-size': '' + 3.0 + 'em',
         });
+        let amount = '';
+        if (obj.amount != null) {
+          html.css('color', '#ffb300');
+          amount = '<span style="color:#fff;font-size:0.5em">' + obj.amount + '</span>';
+        }
         const img = '<img src="' + obj.author.photo + '" style="width:1em;height:1em;" >';
-        html.html('' + img + obj.text);
+        html.html('' + img + amount + obj.text);
         body.insertAdjacentElement('beforeend', html.get(0));
       });
       comment = [];
