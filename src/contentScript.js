@@ -61,7 +61,7 @@ setTimeout(
       items.forEach(function (item) {
         const obj = {
           timestamp: item.querySelector('#timestamp').innerText,
-          text: item.querySelector('#message').innerText,
+          text: item.querySelector('#message').innerHTML,
           id: item.id,
           author: {
             photo: item.querySelector('#author-photo img').getAttribute('src'),
