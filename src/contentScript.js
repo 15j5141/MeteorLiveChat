@@ -46,7 +46,9 @@ let kyoriW = 1000;
 let kyoriH = 500;
 setTimeout(
   function () {
-    window.doc = document.querySelector('ytd-live-chat-frame iframe').contentWindow.document;
+    const iframe = document.querySelector('ytd-live-chat-frame iframe');
+    if (iframe == null) { return; }
+    window.doc = iframe.contentWindow.document;
     setInterval(function () {
       // document.querySelectorAll('.yt-live-chat-item-list-renderer');
       const items = window.doc.querySelectorAll('yt-live-chat-app #items.yt-live-chat-item-list-renderer yt-live-chat-text-message-renderer');
@@ -77,9 +79,9 @@ setTimeout(
         // 新着コメントを記録.
         array.push(obj);
       });
-      if (array.length !== 0) {
+      if (array.length > 1) {
         window.lastChatId = array[array.length - 1].id;
-        array.shift();
+        array.shift(); // 新着に1件古い情報が入ってしまうため除去.
         comment.push(...array);
         console.log(array);
       }
