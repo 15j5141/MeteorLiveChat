@@ -54,6 +54,21 @@ setTimeout(
       const iframe = document.querySelector('ytd-live-chat-frame iframe');
       if (iframe == null) { return; }
       const doc_ = iframe.contentWindow.document;
+      if (!Object.is(window.doc, doc_)) {
+        // チャットのDOMが異なっていたら, 画面内のチャットを一掃する.
+        console.log('changed iframe document.');
+        const $comment = $('.meteor-comment');
+        $comment.css({
+          'transition': 'all 1000ms 0s linear',
+        });
+        setTimeout(() => {
+          $comment.css({
+            'transform': 'translate(' + (-kyoriW * 2) + 'px,' + (-kyoriH * 2) + 'px)',
+          });
+        }, 1);
+        // 新着チャットを判定できるように初期化.
+        window.lastChatId = null;
+      }
       window.doc = doc_;
       // document.querySelectorAll('.yt-live-chat-item-list-renderer');
       const items = window.doc.querySelectorAll('yt-live-chat-text-message-renderer,yt-live-chat-paid-message-renderer');
@@ -79,7 +94,7 @@ setTimeout(
           y: video.clientHeight,
         };
         // 未セット==初実行か, 以降新着コメントなら.
-        if ((typeof window.lastChatId === 'undefined') || obj.id === window.lastChatId) {
+        if (window.lastChatId == null || obj.id === window.lastChatId) {
           isCheck = true;
           // return;
         }
