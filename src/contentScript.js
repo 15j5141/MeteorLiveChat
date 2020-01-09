@@ -50,10 +50,11 @@ let kyoriW = 1000;
 let kyoriH = 500;
 setTimeout(
   function () {
-    const iframe = document.querySelector('ytd-live-chat-frame iframe');
-    if (iframe == null) { return; }
-    window.doc = iframe.contentWindow.document;
     setInterval(function () {
+      const iframe = document.querySelector('ytd-live-chat-frame iframe');
+      if (iframe == null) { return; }
+      const doc_ = iframe.contentWindow.document;
+      window.doc = doc_;
       // document.querySelectorAll('.yt-live-chat-item-list-renderer');
       const items = window.doc.querySelectorAll('yt-live-chat-text-message-renderer,yt-live-chat-paid-message-renderer');
       // const paids = window.doc.querySelectorAll('yt-live-chat-paid-message-renderer');
