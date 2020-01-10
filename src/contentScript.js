@@ -118,19 +118,27 @@ setTimeout(
         console.log(array);
       }
     }, 500);
-    const body = document.querySelector('body');
+    const container = '<div id="mlc-container" style="overflow:hidden; position:absolute; pointer-events:none;"></div>';
+    document.querySelector('body').insertAdjacentHTML('beforeend', container);
+    const body = document.querySelector('#mlc-container');
     setInterval(() => {
       const video = document.querySelector('video');
       const rect = video.getBoundingClientRect();
 
+      $(body).css({
+        width: '' + kyoriW + 'px',
+        height: '' + kyoriH + 'px',
+        left: '' + window.pageXOffset + rect.left + 'px',
+        top: '' + window.pageYOffset + rect.top + 'px',
+      });
       comment.forEach(obj => {
         const html = $('<div>');
         html.addClass('meteor-comment-set');
         html.css({
           'position': 'absolute',
-          'left': '' + (kyoriW + rect.left) + 'px',
-          'top': '' + Math.floor(rect.top + Math.random() * kyoriH) + 'px',
-          'z-index': '' + 10001,
+          'left': '' + 100 + '%',
+          'top': '' + Math.floor(Math.random() * 95) + '%',
+          // 'z-index': '' + 10001,
           'color': '#fff',
           'text-shadow': '1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000',
           'transition': 'all 10s 0s linear',
