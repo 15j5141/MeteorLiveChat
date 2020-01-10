@@ -102,6 +102,12 @@ setTimeout(
         // 新着コメントを記録.
         array.push(obj);
       });
+      // lastChatIdが1件もヒットしない==時間を飛ばすなどして大きくチャット内容が変化したor時間を巻き戻した.
+      if (!isCheck) {
+        console.log('changed chat history.');
+        window.lastChatId == null;
+        window.doc = null;
+      }
       if (array.length > 1) {
         window.lastChatId = array[array.length - 1].id;
         array.shift(); // 新着に1件古い情報が入ってしまうため除去.
