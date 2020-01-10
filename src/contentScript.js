@@ -165,12 +165,12 @@ setTimeout(
         mcs.addClass('meteor-comment');
         mcs.removeClass('meteor-comment-set');
       }, 100); // 10とかだと短すぎる.
+      $('.meteor-comment').offset();
+
     }, 500);
   }, 2000
 );
 $(document).on('transitionend', '.meteor-comment', e => {
-  $(e.target).each(function (i, e) {
-    $(e).remove();
-  });
+  $(e.target).remove();
 });
 // items.item(233).querySelector('#message').innerText
