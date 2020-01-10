@@ -62,11 +62,13 @@ setTimeout(
         console.log('changed iframe document.');
         const $comment = $('.meteor-comment');
         $comment.css({
-          'transition': 'all 1000ms 0s linear',
+          'transition': 'all 1000ms ease-out 0s',
         });
         setTimeout(() => {
+          // 画面外へ飛ばす.
           $comment.css({
             'transform': 'translate(' + (-kyoriW * 2) + 'px,' + (-kyoriH * 2) + 'px)',
+            'opacity': '0'
           });
         }, 1);
         // 新着チャットを判定できるように初期化.
