@@ -52,7 +52,10 @@ setTimeout(
   function () {
     setInterval(function () {
       const iframe = document.querySelector('ytd-live-chat-frame iframe');
-      if (iframe == null) { return; }
+      if (iframe == null) {
+        $('.meteor-comment').remove();
+        return;
+      }
       const doc_ = iframe.contentWindow.document;
       if (!Object.is(window.doc, doc_)) {
         // チャットのDOMが異なっていたら, 画面内のチャットを一掃する.
