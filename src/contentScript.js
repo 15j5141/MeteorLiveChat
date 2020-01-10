@@ -141,7 +141,7 @@ setTimeout(
           // 'z-index': '' + 10001,
           'color': '#fff',
           'text-shadow': '1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000',
-          'transition': 'all 10s 0s linear',
+          'transition': 'all 20s 0s linear',
           'max-width': '' + 1000 + 'px',
           'white-space': 'nowrap',
           'font-size': '' + 3.0 + 'em',
@@ -159,7 +159,7 @@ setTimeout(
 
       setTimeout(() => {
         const mcs = $('.meteor-comment-set');
-        mcs.css('transform', 'translateX(-' + kyoriW + 'px)');
+        mcs.css('transform', 'translateX(' + (-kyoriW * 2) + 'px)');
         mcs.addClass('meteor-comment');
         mcs.removeClass('meteor-comment-set');
       }, 100); // 10とかだと短すぎる.
